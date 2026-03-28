@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XONOMO.SITE | Premium Utility Hub</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&family=Space+Mono&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ══════════════════════════════════════
+       ROOT & RESET
+    ══════════════════════════════════════ */
+    :root {
+      --bg:    #080c18;
+      --bg2:   #0d1220;
+      --glass: rgba(16,24,46,0.78);
+      --glass2:rgba(12,18,36,0.9);
+      --border:rgba(255,255,255,0.08);
+      --border2:rgba(99,102,241,0.35);
+      --ind:   #6366f1;
+      --ind2:  #818cf8;
+      --pur:   #a855f7;
+      --cyn:   #22d3ee;
+      --grn:   #10b981;
+      --amb:   #f59e0b;
+      --ros:   #f43f5e;
+      --txt:   #f1f5f9;
+      --sub:   #94a3b8;
+      --dim:   #475569;
+      --r:     22px;
+      --ri:    12px;
+      --blur:  blur(28px);
+      --t:     0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--txt);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; }
+    button { font-family: inherit; }
+
+    /* ── Animated BG ───────────────────── */
+    #scene { position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden; }
+    .orb { position:absolute;border-radius:50%;filter:blur(80px);opacity:.45;animation:orbFloat 22s ease-in-out infinite alternate; }
+    .orb1 { width:52vw;height:52vw;top:-18%;left:-12%;background:radial-gradient(circle,#3730a3 0%,transparent 70%);animation-duration:20s; }
+    .orb2 { width:46vw;height:46vw;bottom:-15%;right:-10%;background:radial-gradient(circle,#7c3aed 0%,transparent 70%);animation-duration:26s;animation-direction:alternate-reverse; }
+    .orb3 { width:32vw;height:32vw;top:35%;left:50%;background:radial-gradient(circle,#0891b2 0%,transparent 70%);animation-duration:18s;opacity:.25; }
+    @keyframes orbFloat { from{transform:translate(0,0) scale(1)} to{transform:translate(4vw,5vh) scale(1.12)} }
+    #scene::after {
+      content:'';position:absolute;inset:0;
+      background-image:linear-gradient(rgba(99,102,241,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.04) 1px,transparent 1px);
+      background-size:60px 60px;
+    }
+
+    /* ── Layout ────────────────────────── */
+    .wrap { position:relative;z-index:1; }
+
+    /* ── Home ──────────────────────────── */
+    #home { max-width:1080px;margin:0 auto;padding:0 20px 60px; }
+    .site-header { text-align:center;padding:72px 0 52px; }
+    .header-kicker {
+      display:inline-flex;align-items:center;gap:8px;
+      font-size:.68rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;
+      color:var(--ind);background:rgba(99,102,241,.1);
+      border:1px solid rgba(99,102,241,.25);border-radius:30px;padding:5px 14px;margin-bottom:22px;
+    }
+    .header-kicker::before { content:'';width:6px;height:6px;border-radius:50%;background:var(--ind);animation:pkPulse 2s infinite; }
+    @keyframes pkPulse { 0%,100%{box-shadow:0 0 0 0 rgba(99,102,241,.5)} 50%{box-shadow:0 0 0 5px transparent} }
+    .site-title {
+      font-family:'Syne',sans-serif;font-size:clamp(3rem,8vw,5.5rem);
+      font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:18px;
+    }
+    .site-title .t1 {
+      background:linear-gradient(135deg,#c7d2fe 0%,#a5b4fc 30%,#c084fc 65%,#f0abfc 100%);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    }
+    .site-title .t2 { color:rgba(255,255,255,.18); }
+    .site-tagline { font-size:1rem;color:var(--sub);max-width:460px;margin:0 auto;line-height:1.7; }
+
+    /* ── Card Grid ─────────────────────── */
+    .card-grid {
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,310px),1fr));
+      gap:18px;margin-top:42px;
+    }
+    .hcard {
+      background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+      border:1px solid var(--border);border-radius:var(--r);
+      padding:34px 28px;cursor:pointer;transition:var(--t);
+      position:relative;overflow:hidden;user-select:none;
+    }
+    .hcard::before {
+      content:'';position:absolute;inset:0;border-radius:inherit;
+      background:linear-gradient(135deg,rgba(255,255,255,.04) 0%,transparent 50%);pointer-events:none;
+    }
+    .hcard::after {
+      content:'';position:absolute;left:0;top:20%;bottom:20%;
+      width:3px;border-radius:0 3px 3px 0;
+      background:linear-gradient(180deg,var(--card-color,#6366f1),transparent);
+      opacity:0;transition:opacity .3s;
+    }
+    .hcard:hover { transform:translateY(-6px);border-color:var(--border2);box-shadow:0 24px 56px rgba(0,0,0,.45),0 0 0 1px rgba(99,102,241,.1); }
+    .hcard:hover::after { opacity:1; }
+    .hcard:active { transform:translateY(-2px); }
+    .hcard-icon {
+      width:52px;height:52px;border-radius:16px;
+      display:flex;align-items:center;justify-content:center;font-size:1.45rem;
+      margin-bottom:20px;
+    }
+    .hcard-icon.c1 { background:linear-gradient(135deg,#4338ca,#6366f1); }
+    .hcard-icon.c2 { background:linear-gradient(135deg,#0e7490,#22d3ee); }
+    .hcard-icon.c3 { background:linear-gradient(135deg,#065f46,#10b981); }
+    .hcard-icon.c4 { background:linear-gradient(135deg,#9d174d,#f43f5e); }
+    .hcard-icon.c5 { background:linear-gradient(135deg,#78350f,#f59e0b); }
+    .hcard-icon.c6 { background:linear-gradient(135deg,#1e1b4b,#4f46e5); }
+    .hcard[data-color="ind"] { --card-color:#6366f1; }
+    .hcard[data-color="cyn"] { --card-color:#22d3ee; }
+    .hcard[data-color="grn"] { --card-color:#10b981; }
+    .hcard[data-color="ros"] { --card-color:#f43f5e; }
+    .hcard[data-color="amb"] { --card-color:#f59e0b; }
+    .hcard[data-color="pur"] { --card-color:#a855f7; }
+    .hcard-badge {
+      display:inline-flex;align-items:center;gap:5px;
+      font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+      padding:3px 10px;border-radius:20px;margin-bottom:10px;border:1px solid;
+    }
+    .hcard-badge.live { background:rgba(16,185,129,.12);color:#10b981;border-color:rgba(16,185,129,.3); }
+    .hcard-badge.live::before { content:'';width:5px;height:5px;border-radius:50%;background:currentColor;animation:pkPulse 2s infinite; }
+    .hcard-badge.soon { background:rgba(245,158,11,.1);color:#f59e0b;border-color:rgba(245,158,11,.25); }
+    .hcard-title { font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:8px; }
+    .hcard-desc { font-size:.85rem;color:var(--sub);line-height:1.6; }
+    .hcard.locked { opacity:.45;cursor:not-allowed; }
+    .hcard.locked:hover { transform:none;border-color:var(--border);box-shadow:none; }
+
+    /* ── Panel system ──────────────────── */
+    .panel {
+      display:none;position:fixed;inset:0;z-index:100;
+      overflow-y:auto;background:rgba(8,12,24,.65);
+      backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+      animation:panelIn .28s ease;
+    }
+    .panel.open { display:block; }
+    @keyframes panelIn { from{opacity:0} to{opacity:1} }
+    .panel-inner { max-width:720px;margin:0 auto;padding:28px 20px 60px; }
+    .pcard {
+      background:var(--glass2);border:1px solid var(--border);
+      border-radius:var(--r);padding:36px 32px;
+    }
+    .phead { display:flex;align-items:center;gap:16px;margin-bottom:24px; }
+    .phead-icon { width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0; }
+    .phead-title { font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800; }
+    .phead-sub { font-size:.75rem;color:var(--sub);margin-top:3px; }
+    .back-btn {
+      display:inline-flex;align-items:center;gap:7px;
+      font-size:.8rem;font-weight:600;color:var(--sub);
+      background:rgba(255,255,255,.05);border:1px solid var(--border);
+      border-radius:30px;padding:7px 16px;cursor:pointer;
+      transition:var(--t);margin-bottom:20px;
+    }
+    .back-btn:hover { color:var(--txt);background:rgba(255,255,255,.1); }
+
+    /* ── Form elements ─────────────────── */
+    .field { margin-bottom:14px; }
+    .lbl { display:block;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--sub);margin-bottom:6px; }
+    input[type="text"],input[type="url"],input[type="number"],input[type="email"],textarea,select {
+      width:100%;background:rgba(0,0,0,.3);border:1px solid var(--border);
+      border-radius:var(--ri);padding:11px 14px;color:var(--txt);
+      font-family:inherit;font-size:.88rem;outline:none;transition:border-color .2s;
+    }
+    input:focus,textarea:focus,select:focus { border-color:rgba(99,102,241,.5);box-shadow:0 0 0 3px rgba(99,102,241,.1); }
+    input::placeholder,textarea::placeholder { color:var(--dim); }
+
+    /* ── Buttons ───────────────────────── */
+    .btn {
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      width:100%;padding:13px 22px;border-radius:var(--ri);
+      font-size:.88rem;font-weight:700;cursor:pointer;
+      border:1px solid transparent;transition:var(--t);
+      letter-spacing:.03em;
+    }
+    .btn:disabled { opacity:.5;cursor:not-allowed; }
+    .btn-ind { background:linear-gradient(135deg,rgba(67,56,202,.5),rgba(99,102,241,.4));border-color:rgba(99,102,241,.4);color:#c7d2fe; }
+    .btn-ind:hover:not(:disabled) { background:linear-gradient(135deg,rgba(67,56,202,.7),rgba(99,102,241,.6)); }
+    .btn-grn { background:linear-gradient(135deg,rgba(6,95,70,.5),rgba(16,185,129,.4));border-color:rgba(16,185,129,.4);color:#6ee7b7; }
+    .btn-grn:hover:not(:disabled) { background:linear-gradient(135deg,rgba(6,95,70,.7),rgba(16,185,129,.6)); }
+    .btn-ros { background:linear-gradient(135deg,rgba(157,23,77,.5),rgba(244,63,94,.4));border-color:rgba(244,63,94,.4);color:#fda4af; }
+    .btn-ros:hover:not(:disabled) { background:linear-gradient(135deg,rgba(157,23,77,.7),rgba(244,63,94,.6)); }
+    .btn-cyn { background:linear-gradient(135deg,rgba(14,116,144,.5),rgba(34,211,238,.4));border-color:rgba(34,211,238,.4);color:#a5f3fc; }
+    .btn-cyn:hover:not(:disabled) { background:linear-gradient(135deg,rgba(14,116,144,.7),rgba(34,211,238,.6)); }
+    .btn-pur { background:linear-gradient(135deg,rgba(109,40,217,.5),rgba(168,85,247,.4));border-color:rgba(168,85,247,.4);color:#e9d5ff; }
+    .btn-pur:hover:not(:disabled) { background:linear-gradient(135deg,rgba(109,40,217,.7),rgba(168,85,247,.6)); }
+    .btn-sm { width:auto;padding:8px 16px;font-size:.78rem; }
+
+    /* ── Messages ──────────────────────── */
+    .msg { display:none;border-radius:13px;padding:12px 15px;font-size:.84rem;font-weight:500;margin-top:13px;align-items:flex-start;gap:9px; }
+    .msg.show { display:flex; }
+    .msg-icon { font-size:1rem;flex-shrink:0; }
+    .msg.err  { background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.25);color:#fda4af; }
+    .msg.ok   { background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);color:#6ee7b7; }
+
+    /* ── Result box ────────────────────── */
+    .result {
+      margin-top:16px;background:rgba(0,0,0,.25);border:1px solid var(--border);
+      border-radius:var(--ri);padding:16px 18px;
+    }
+
+    /* ── Copy button ───────────────────── */
+    .copy-btn {
+      display:inline-flex;align-items:center;gap:6px;
+      width:auto;padding:9px 16px;font-size:.8rem;
+      background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.3);
+      color:var(--ind2);border-radius:10px;font-family:inherit;font-weight:700;
+      cursor:pointer;transition:var(--t);flex-shrink:0;
+    }
+    .copy-btn:hover { background:rgba(99,102,241,.28); }
+    .copy-btn.copied { background:rgba(16,185,129,.15);border-color:rgba(16,185,129,.3);color:var(--grn); }
+
+    /* ══════════════════════════════════════
+       ANONYMITY CHECKER STYLES
+    ══════════════════════════════════════ */
+    .anon-hero { display:flex;flex-direction:column;align-items:center;padding:32px 20px 24px;text-align:center; }
+    .gauge-wrap { position:relative;width:180px;height:180px;margin-bottom:18px; }
+    .gauge-svg { width:180px;height:180px;transform:rotate(-90deg); }
+    .gauge-bg { fill:none;stroke:rgba(255,255,255,.07);stroke-width:12; }
+    .gauge-fill { fill:none;stroke-width:12;stroke-linecap:round;stroke-dasharray:502;stroke-dashoffset:502;transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1),stroke .5s; }
+    .gauge-score { position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center; }
+    .gauge-number { font-family:'Syne',sans-serif;font-size:2.6rem;font-weight:800;line-height:1;background:linear-gradient(135deg,#818cf8,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text; }
+    .gauge-label { font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sub);margin-top:3px; }
+    .anon-status-badge { display:inline-flex;align-items:center;gap:7px;padding:6px 18px;border-radius:30px;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;border:1px solid; }
+    .badge-safe   { background:rgba(16,185,129,.12);color:#10b981;border-color:rgba(16,185,129,.3); }
+    .badge-warn   { background:rgba(245,158,11,.12);color:#f59e0b;border-color:rgba(245,158,11,.3); }
+    .badge-danger { background:rgba(244,63,94,.12);color:#f43f5e;border-color:rgba(244,63,94,.3); }
+    .anon-subtitle { font-size:.82rem;color:var(--sub); }
+    .anon-checks { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0; }
+    @media(max-width:480px) { .anon-checks { grid-template-columns:1fr; } }
+    .check-item { background:rgba(12,18,36,.7);border:1px solid var(--border);border-radius:14px;padding:14px 16px;display:flex;align-items:flex-start;gap:12px;transition:border-color .3s; }
+    .check-item.pass { border-color:rgba(16,185,129,.25); }
+    .check-item.fail { border-color:rgba(244,63,94,.35); }
+    .check-icon { width:34px;height:34px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1rem; }
+    .check-item.pass .check-icon { background:rgba(16,185,129,.15); }
+    .check-item.fail .check-icon { background:rgba(244,63,94,.15); }
+    .check-body { flex:1;min-width:0; }
+    .check-name { font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--sub);margin-bottom:3px; }
+    .check-val  { font-size:.88rem;font-weight:600;color:var(--txt);word-break:break-word;line-height:1.4; }
+    .check-val.mismatch { color:#f43f5e; }
+    .check-deduct { font-size:.7rem;color:var(--sub);margin-top:2px; }
+    .check-deduct.red { color:#f43f5e;font-weight:600; }
+    .check-deduct.grn { color:#10b981;font-weight:600; }
+    .anon-details { display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:10px; }
+    .adet { background:rgba(12,18,36,.7);border:1px solid var(--border);border-radius:13px;padding:12px 14px; }
+    .adet-k { font-size:.65rem;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px; }
+    .adet-v { font-size:.85rem;font-weight:600;word-break:break-all;color:var(--txt); }
+    .adet-v.highlight { color:var(--cyn);font-family:'Space Mono',monospace;font-size:.8rem; }
+    .adet-v.warn-val  { color:#f59e0b; }
+    .anon-section-title { font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--ind2);margin:20px 0 10px;display:flex;align-items:center;gap:8px; }
+    .anon-section-title::after { content:'';flex:1;height:1px;background:rgba(99,102,241,.15); }
+
+    /* ══════════════════════════════════════
+       TEMP MAIL STYLES
+    ══════════════════════════════════════ */
+    .mail-address-box {
+      background:rgba(0,0,0,.35);border:1px solid rgba(34,211,238,.25);
+      border-radius:14px;padding:16px 20px;
+      display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+      margin-bottom:16px;
+    }
+    .mail-address-text { font-family:'Space Mono',monospace;font-size:.9rem;color:var(--cyn);flex:1;word-break:break-all; }
+    .mail-status-row { display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px; }
+    .mail-status-dot { width:8px;height:8px;border-radius:50%;background:var(--grn);animation:pkPulse 2s infinite;flex-shrink:0; }
+    .mail-status-txt { font-size:.78rem;color:var(--sub); }
+    .inbox-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:12px; }
+    .inbox-title { font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--ind2); }
+    .inbox-count { background:rgba(99,102,241,.2);color:var(--ind2);font-size:.7rem;font-weight:700;padding:2px 9px;border-radius:20px; }
+    .inbox-list { display:flex;flex-direction:column;gap:8px;min-height:120px; }
+    .inbox-empty { text-align:center;padding:40px 20px;color:var(--dim);font-size:.85rem; }
+    .inbox-empty .inbox-empty-icon { font-size:2.5rem;margin-bottom:10px;opacity:.4; }
+    .mail-item {
+      background:rgba(12,18,36,.8);border:1px solid var(--border);border-radius:14px;
+      padding:14px 16px;cursor:pointer;transition:var(--t);
+      display:flex;flex-direction:column;gap:4px;
+    }
+    .mail-item:hover { border-color:rgba(99,102,241,.4);background:rgba(16,24,46,.9);transform:translateX(3px); }
+    .mail-item.unread { border-left:3px solid var(--cyn); }
+    .mail-item-from { font-size:.8rem;font-weight:700;color:var(--ind2); }
+    .mail-item-subject { font-size:.88rem;font-weight:600;color:var(--txt); }
+    .mail-item-preview { font-size:.75rem;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+    .mail-item-time { font-size:.68rem;color:var(--dim);margin-top:2px; }
+
+    /* Mail modal */
+    .mail-modal {
+      display:none;position:fixed;inset:0;z-index:200;
+      background:rgba(5,8,20,.85);backdrop-filter:blur(10px);
+      animation:panelIn .2s ease;align-items:center;justify-content:center;padding:20px;
+    }
+    .mail-modal.open { display:flex; }
+    .mail-modal-inner {
+      background:var(--glass2);border:1px solid var(--border);border-radius:var(--r);
+      width:100%;max-width:680px;max-height:85vh;overflow:hidden;
+      display:flex;flex-direction:column;
+    }
+    .mail-modal-head { padding:20px 24px 16px;border-bottom:1px solid var(--border);flex-shrink:0; }
+    .mail-modal-subject { font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:8px; }
+    .mail-modal-meta { font-size:.78rem;color:var(--sub);display:flex;flex-wrap:wrap;gap:12px; }
+    .mail-modal-body { flex:1;overflow-y:auto;padding:20px 24px; }
+    .mail-modal-body iframe { width:100%;min-height:300px;border:none;background:#fff;border-radius:8px; }
+    .mail-modal-body pre { white-space:pre-wrap;font-family:'DM Sans',sans-serif;font-size:.85rem;line-height:1.7;color:var(--txt); }
+    .mail-modal-foot { padding:14px 24px;border-top:1px solid var(--border);flex-shrink:0;display:flex;justify-content:flex-end; }
+
+    /* ══════════════════════════════════════
+       SPEED TEST STYLES
+    ══════════════════════════════════════ */
+    .speed-gauge-row { display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0; }
+    @media(max-width:500px) { .speed-gauge-row { grid-template-columns:1fr; } }
+    .speed-gauge {
+      background:rgba(12,18,36,.8);border:1px solid var(--border);border-radius:18px;
+      padding:24px 16px;text-align:center;transition:border-color .3s;
+    }
+    .speed-gauge.active { border-color:rgba(34,211,238,.4); }
+    .speed-gauge-icon { font-size:1.8rem;margin-bottom:10px; }
+    .speed-gauge-val {
+      font-family:'Space Mono',monospace;font-size:2.4rem;font-weight:700;
+      line-height:1;margin-bottom:4px;
+    }
+    .speed-gauge-val.dl { color:var(--grn); }
+    .speed-gauge-val.ul { color:var(--ind2); }
+    .speed-gauge-unit { font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sub); }
+    .speed-gauge-label { font-size:.78rem;font-weight:600;margin-top:8px;color:var(--sub); }
+    .speed-stats { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px; }
+    .speed-stat { background:rgba(12,18,36,.7);border:1px solid var(--border);border-radius:13px;padding:12px;text-align:center; }
+    .speed-stat-val { font-family:'Space Mono',monospace;font-size:1rem;font-weight:700;color:var(--cyn); }
+    .speed-stat-lbl { font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sub);margin-top:3px; }
+    .speed-progress { height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;margin:14px 0; }
+    .speed-progress-bar { height:100%;width:0%;border-radius:3px;transition:width .4s ease;background:linear-gradient(90deg,var(--grn),var(--cyn)); }
+    .speed-log { background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:12px;padding:12px 14px;font-family:'Space Mono',monospace;font-size:.72rem;color:var(--sub);max-height:140px;overflow-y:auto;line-height:1.8; }
+    .speed-log .log-line { color:var(--sub); }
+    .speed-log .log-line.done { color:var(--grn); }
+    .speed-log .log-line.active { color:var(--cyn); }
+
+    /* ── URL Shortener ─────────────────── */
+    .url-result-link { font-family:'Space Mono',monospace;font-size:.88rem;color:var(--cyn);flex:1;word-break:break-all; }
+
+    /* ── Toast ─────────────────────────── */
+    #toast {
+      position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);
+      background:rgba(16,185,129,.95);color:#fff;padding:10px 22px;border-radius:30px;
+      font-size:.82rem;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,.35);
+      z-index:99999;pointer-events:none;display:flex;align-items:center;gap:7px;
+      transition:transform .32s cubic-bezier(.4,0,.2,1);
+    }
+    #toast.show { transform:translateX(-50%) translateY(0); }
+
+    /* ── Footer ────────────────────────── */
+    .site-footer { text-align:center;padding:32px 20px;color:var(--dim);font-size:.78rem;border-top:1px solid rgba(255,255,255,.05);margin-top:48px; }
+
+    /* ── Animations ────────────────────── */
+    @keyframes cardIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes spin   { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+    @keyframes doSpin { to{transform:rotate(360deg)} }
+    .spin { display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.22);border-top-color:#fff;border-radius:50%;animation:doSpin .65s linear infinite; }
+    .hcard { animation:cardIn .5s ease both; }
+    .hcard:nth-child(1){animation-delay:.05s}
+    .hcard:nth-child(2){animation-delay:.1s}
+    .hcard:nth-child(3){animation-delay:.15s}
+    .hcard:nth-child(4){animation-delay:.2s}
+    .hcard:nth-child(5){animation-delay:.25s}
+
+    @media(max-width:600px) {
+      .pcard { padding:22px 16px; }
+      .site-title { font-size:2.8rem; }
+      .speed-stats { grid-template-columns:1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Background -->
+<div id="scene">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+
+<!-- Toast -->
+<div id="toast">✓ Copied!</div>
+
+<!-- Mail Read Modal -->
+<div id="mail-modal" class="mail-modal">
+  <div class="mail-modal-inner">
+    <div class="mail-modal-head">
+      <div class="mail-modal-subject" id="modal-subject">—</div>
+      <div class="mail-modal-meta">
+        <span>From: <strong id="modal-from">—</strong></span>
+        <span>To: <strong id="modal-to">—</strong></span>
+        <span id="modal-time">—</span>
+      </div>
+    </div>
+    <div class="mail-modal-body" id="modal-body"></div>
+    <div class="mail-modal-foot">
+      <button class="btn btn-sm" onclick="closeMailModal()" style="background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--sub);width:auto;padding:9px 20px;">✕ Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- HOME PAGE                          -->
+  <!-- ═══════════════════════════════════ -->
+  <div id="home">
+    <header class="site-header">
+      <div class="header-kicker">Premium Utility Suite</div>
+      <h1 class="site-title">
+        <span class="t1">XONOMO</span><span class="t2">.SITE</span>
+      </h1>
+      <p class="site-tagline">Anonymity checker, temporary email, internet speed test, IP intelligence & smart URL tools — all in one place.</p>
+    </header>
+
+    <div class="card-grid">
+
+      <!-- Anonymity Checker — full width -->
+      <div class="hcard" onclick="openPanel('p-anon')" data-color="ind" style="--card-color:#818cf8;grid-column:1/-1;">
+        <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;">
+          <div class="hcard-icon c6" style="flex-shrink:0;">🕵️</div>
+          <div style="flex:1;min-width:200px;">
+            <div class="hcard-badge live" style="background:rgba(129,140,248,.15);color:#818cf8;border-color:rgba(129,140,248,.3);">Live Check</div>
+            <div class="hcard-title" style="font-size:1.15rem;">Anonymity & IP Checker</div>
+            <div class="hcard-desc">Whoer-style anonymity score — detects VPN/proxy, Tor, timezone mismatch, blacklist status & browser fingerprint. Score out of 100%.</div>
+          </div>
+          <div style="text-align:center;flex-shrink:0;">
+            <div style="font-family:'Space Mono',monospace;font-size:2rem;font-weight:700;background:linear-gradient(135deg,#818cf8,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">100%</div>
+            <div style="font-size:.7rem;color:var(--sub);letter-spacing:.1em;text-transform:uppercase;">Max Score</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Temp Mail -->
+      <div class="hcard" onclick="openPanel('p-mail')" data-color="cyn">
+        <div class="hcard-icon c2">📧</div>
+        <div class="hcard-badge live">Mail.tm API</div>
+        <div class="hcard-title">Temp Mail</div>
+        <div class="hcard-desc">Instant disposable email address. Auto-generated inbox with real-time polling. Read messages without revealing your real email.</div>
+      </div>
+
+      <!-- Speed Test -->
+      <div class="hcard" onclick="openPanel('p-speed')" data-color="grn">
+        <div class="hcard-icon c3">⚡</div>
+        <div class="hcard-badge live">Real-Time</div>
+        <div class="hcard-title">Internet Speed Test</div>
+        <div class="hcard-desc">Measure your download & upload speed, latency and jitter directly in your browser. No plugins required.</div>
+      </div>
+
+      <!-- IP Intelligence -->
+      <div class="hcard" onclick="openPanel('p-ip')" data-color="ros">
+        <div class="hcard-icon c4">🛡️</div>
+        <div class="hcard-title">IP Intelligence</div>
+        <div class="hcard-desc">Deep scan of your public IP, ISP, ASN, geolocation, timezone and local currency.</div>
+      </div>
+
+      <!-- URL Shortener -->
+      <div class="hcard" onclick="openPanel('p-url')" data-color="pur">
+        <div class="hcard-icon c1">🔗</div>
+        <div class="hcard-badge live">CleanURI Powered</div>
+        <div class="hcard-title">XONOMO Link Shortener</div>
+        <div class="hcard-desc">Transform any long URL into a clean short link via CleanURI API. Instant, no account needed.</div>
+      </div>
+
+    </div>
+
+    <footer class="site-footer">
+      <p>© 2025 XONOMO.SITE &nbsp;·&nbsp; Powered by Mail.tm · ipapi.co · CleanURI · Cloudflare Workers</p>
+    </footer>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- PANEL: ANONYMITY CHECKER          -->
+  <!-- ═══════════════════════════════════ -->
+  <div id="p-anon" class="panel">
+    <div class="panel-inner">
+      <button class="back-btn" onclick="closePanel('p-anon')">← Dashboard</button>
+      <div class="pcard">
+        <div class="phead">
+          <div class="phead-icon" style="background:linear-gradient(135deg,#1e1b4b,#4f46e5)">🕵️</div>
+          <div>
+            <div class="phead-title">Anonymity Checker</div>
+            <div class="phead-sub">Privacy Score · VPN · Tor · Timezone · Fingerprint</div>
+          </div>
+        </div>
+        <p style="font-size:.85rem;color:var(--sub);line-height:1.65;margin-bottom:22px;">
+          Analyze your connection's anonymity level. Checks for VPN/proxy, Tor exit nodes, timezone mismatches, language inconsistencies, and blacklist status.
+        </p>
+        <button class="btn" id="anon-scan-btn" style="background:linear-gradient(135deg,rgba(79,70,229,.3),rgba(168,85,247,.3));border:1px solid rgba(129,140,248,.4);color:#c7d2fe;">🔍 Analyze My Anonymity</button>
+
+        <div id="anon-loading" style="display:none;text-align:center;padding:30px 0;color:var(--sub);font-size:.85rem;">
+          <div style="font-size:1.5rem;margin-bottom:8px;animation:spin 1s linear infinite;display:inline-block;">⚙️</div><br>Analyzing your connection…
+        </div>
+
+        <div id="anon-result" style="display:none;">
+          <div class="anon-hero">
+            <div class="gauge-wrap">
+              <svg class="gauge-svg" viewBox="0 0 180 180">
+                <circle class="gauge-bg" cx="90" cy="90" r="80"/>
+                <circle class="gauge-fill" id="gauge-circle" cx="90" cy="90" r="80"/>
+              </svg>
+              <div class="gauge-score">
+                <div class="gauge-number" id="gauge-num">0%</div>
+                <div class="gauge-label">Anonymity</div>
+              </div>
+            </div>
+            <div class="anon-status-badge" id="anon-badge">—</div>
+            <div class="anon-subtitle" id="anon-subtitle">Scanning…</div>
+          </div>
+
+          <div class="anon-section-title">Security Checks</div>
+          <div class="anon-checks">
+            <div class="check-item" id="chk-vpn">
+              <div class="check-icon">🔒</div>
+              <div class="check-body">
+                <div class="check-name">VPN / Proxy / Hosting</div>
+                <div class="check-val" id="chk-vpn-val">—</div>
+                <div class="check-deduct" id="chk-vpn-pts">−50% if detected</div>
+              </div>
+            </div>
+            <div class="check-item" id="chk-tor">
+              <div class="check-icon">🧅</div>
+              <div class="check-body">
+                <div class="check-name">Tor / Blacklist</div>
+                <div class="check-val" id="chk-tor-val">—</div>
+                <div class="check-deduct" id="chk-tor-pts">−30% if detected</div>
+              </div>
+            </div>
+            <div class="check-item" id="chk-tz">
+              <div class="check-icon">🕐</div>
+              <div class="check-body">
+                <div class="check-name">Timezone Match</div>
+                <div class="check-val" id="chk-tz-val">—</div>
+                <div class="check-deduct" id="chk-tz-pts">−10% if mismatch</div>
+              </div>
+            </div>
+            <div class="check-item" id="chk-lang">
+              <div class="check-icon">🌐</div>
+              <div class="check-body">
+                <div class="check-name">Language Match</div>
+                <div class="check-val" id="chk-lang-val">—</div>
+                <div class="check-deduct" id="chk-lang-pts">−10% if mismatch</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="anon-section-title">Connection Details</div>
+          <div class="anon-details" id="anon-details"></div>
+          <div class="anon-section-title">Browser Fingerprint</div>
+          <div class="anon-details" id="anon-browser"></div>
+        </div>
+        <div class="msg err" id="anon-err"><span class="msg-icon">⚠</span><span id="anon-err-txt">Could not fetch IP data.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- PANEL: TEMP MAIL                   -->
+  <!-- ═══════════════════════════════════ -->
+  <div id="p-mail" class="panel">
+    <div class="panel-inner">
+      <button class="back-btn" onclick="closeMail()">← Dashboard</button>
+      <div class="pcard">
+        <div class="phead">
+          <div class="phead-icon" style="background:linear-gradient(135deg,#0e7490,#22d3ee)">📧</div>
+          <div>
+            <div class="phead-title">Temporary Email</div>
+            <div class="phead-sub">Mail.tm API · Auto-Generated · Self-Destructing</div>
+          </div>
+        </div>
+        <p style="font-size:.85rem;color:var(--sub);line-height:1.65;margin-bottom:20px;">
+          A disposable email address is auto-created for you. Use it to register on sites without revealing your real email. Inbox refreshes every 8 seconds.
+        </p>
+
+        <!-- Loading state -->
+        <div id="mail-creating" style="text-align:center;padding:30px 0;color:var(--sub);font-size:.85rem;">
+          <div style="font-size:1.8rem;margin-bottom:10px;animation:spin 1s linear infinite;display:inline-block;">⚙️</div>
+          <div>Creating your temporary inbox…</div>
+        </div>
+
+        <!-- Ready state -->
+        <div id="mail-ready" style="display:none;">
+          <div class="mail-address-box">
+            <span class="mail-address-text" id="mail-address">—</span>
+            <button class="copy-btn" id="mail-copy-btn">📋 Copy</button>
+          </div>
+          <div class="mail-status-row">
+            <div class="mail-status-dot"></div>
+            <span class="mail-status-txt">Inbox active — polling every 8 seconds</span>
+            <button class="btn btn-sm btn-cyn" onclick="pollInbox(true)" style="margin-left:auto;">↻ Refresh</button>
+          </div>
+
+          <div class="inbox-header">
+            <div class="inbox-title">📬 Inbox</div>
+            <div class="inbox-count" id="mail-count">0 messages</div>
+          </div>
+          <div class="inbox-list" id="inbox-list">
+            <div class="inbox-empty">
+              <div class="inbox-empty-icon">📭</div>
+              <div>No messages yet. Waiting for emails…</div>
+            </div>
+          </div>
+
+          <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-cyn" onclick="generateNewMail()" style="flex:1;">🔄 New Email Address</button>
+            <button class="btn btn-sm" onclick="deleteMailAccount()" style="flex:0 0 auto;width:auto;background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.25);color:#fda4af;padding:10px 16px;">🗑 Delete</button>
+          </div>
+        </div>
+
+        <div class="msg err" id="mail-err"><span class="msg-icon">⚠</span><span id="mail-err-txt">Error creating mailbox.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- PANEL: SPEED TEST                  -->
+  <!-- ═══════════════════════════════════ -->
+  <div id="p-speed" class="panel">
+    <div class="panel-inner">
+      <button class="back-btn" onclick="closePanel('p-speed')">← Dashboard</button>
+      <div class="pcard">
+        <div class="phead">
+          <div class="phead-icon" style="background:linear-gradient(135deg,#065f46,#10b981)">⚡</div>
+          <div>
+            <div class="phead-title">Internet Speed Test</div>
+            <div class="phead-sub">Download · Upload · Ping · Jitter</div>
+          </div>
+        </div>
+        <p style="font-size:.85rem;color:var(--sub);line-height:1.65;margin-bottom:22px;">
+          Test your real internet speed directly in the browser using multi-threaded fetch probes. No plugins or extensions required.
+        </p>
+
+        <div class="speed-gauge-row">
+          <div class="speed-gauge" id="sg-dl">
+            <div class="speed-gauge-icon">⬇️</div>
+            <div class="speed-gauge-val dl" id="spd-dl">—</div>
+            <div class="speed-gauge-unit">Mbps</div>
+            <div class="speed-gauge-label">Download</div>
+          </div>
+          <div class="speed-gauge" id="sg-ul">
+            <div class="speed-gauge-icon">⬆️</div>
+            <div class="speed-gauge-val ul" id="spd-ul">—</div>
+            <div class="speed-gauge-unit">Mbps</div>
+            <div class="speed-gauge-label">Upload</div>
+          </div>
+        </div>
+
+        <div class="speed-stats">
+          <div class="speed-stat">
+            <div class="speed-stat-val" id="spd-ping">—</div>
+            <div class="speed-stat-lbl">Ping (ms)</div>
+          </div>
+          <div class="speed-stat">
+            <div class="speed-stat-val" id="spd-jitter">—</div>
+            <div class="speed-stat-lbl">Jitter (ms)</div>
+          </div>
+          <div class="speed-stat">
+            <div class="speed-stat-val" id="spd-ip">—</div>
+            <div class="speed-stat-lbl">My IP</div>
+          </div>
+        </div>
+
+        <div class="speed-progress" style="margin-top:18px;">
+          <div class="speed-progress-bar" id="spd-bar"></div>
+        </div>
+
+        <div class="speed-log" id="spd-log" style="margin-bottom:16px;">
+          <div class="log-line">Ready. Press Start to begin.</div>
+        </div>
+
+        <div style="display:flex;gap:10px;">
+          <button class="btn btn-grn" id="spd-btn" onclick="startSpeedTest()">▶ Start Speed Test</button>
+          <button class="btn btn-sm" onclick="resetSpeed()" style="flex:0 0 auto;width:auto;background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--sub);padding:10px 16px;">↺ Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- PANEL: IP INTELLIGENCE             -->
+  <!-- ═══════════════════════════════════ -->
+  <div id="p-ip" class="panel">
+    <div class="panel-inner">
+      <button class="back-btn" onclick="closePanel('p-ip')">← Dashboard</button>
+      <div class="pcard">
+        <div class="phead">
+          <div class="phead-icon" style="background:linear-gradient(135deg,#9d174d,#f43f5e)">🛡️</div>
+          <div>
+            <div class="phead-title">IP Intelligence</div>
+            <div class="phead-sub">Network · Geo · Security · Currency</div>
+          </div>
+        </div>
+        <p style="font-size:.85rem;color:var(--sub);line-height:1.65;margin-bottom:22px;">
+          Instantly reveal your public network fingerprint — IP address, ISP, ASN, geolocation, timezone, local currency, and more.
+        </p>
+        <button class="btn btn-ros" id="ip-scan-btn">🔍 Scan My IP</button>
+        <div id="ip-data-section" style="display:none;">
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin-top:16px;" id="ip-grid"></div>
+          <button class="btn btn-ros" id="ip-report-btn" style="margin-top:16px;">↗ Open Full Report</button>
+        </div>
+        <div class="msg err" id="ip-err"><span class="msg-icon">⚠</span><span>Could not fetch IP data.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- PANEL: URL SHORTENER               -->
+  <!-- ═══════════════════════════════════ -->
+  <div id="p-url" class="panel">
+    <div class="panel-inner">
+      <button class="back-btn" onclick="closePanel('p-url')">← Dashboard</button>
+      <div class="pcard">
+        <div class="phead">
+          <div class="phead-icon" style="background:linear-gradient(135deg,#4338ca,#6366f1)">🔗</div>
+          <div>
+            <div class="phead-title">XONOMO Link Shortener</div>
+            <div class="phead-sub">CleanURI API · Instant · No Account Needed</div>
+          </div>
+        </div>
+        <p style="font-size:.85rem;color:var(--sub);line-height:1.65;margin-bottom:22px;">
+          Paste any long URL below and get a clean, shareable short link powered by CleanURI.
+        </p>
+        <div class="field">
+          <label class="lbl">Long URL</label>
+          <input type="url" id="url-input" placeholder="https://your-very-long-url.com/path?query=…" />
+        </div>
+        <button class="btn btn-ind" id="url-btn">✂ Shorten URL</button>
+        <div id="url-result" style="display:none;margin-top:14px;">
+          <div style="font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sub);margin-bottom:8px;font-weight:700;">✅ Shortened Link Ready</div>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <a id="url-short-text" href="#" target="_blank" rel="noopener"
+               style="font-family:'Space Mono',monospace;font-size:.9rem;color:var(--cyn);flex:1;word-break:break-all;padding:10px 14px;background:rgba(34,211,238,.07);border:1px solid rgba(34,211,238,.2);border-radius:10px;">—</a>
+            <button class="copy-btn" id="url-copy-btn">📋 Copy</button>
+          </div>
+          <div style="margin-top:10px;font-size:.75rem;color:var(--dim);">Powered by <a href="https://cleanuri.com" target="_blank" style="color:var(--ind2);">CleanURI.com</a></div>
+        </div>
+        <div class="msg err" id="url-err"><span class="msg-icon">⚠</span><span id="url-err-txt">Error.</span></div>
+
+        <!-- Worker code box -->
+        <div style="margin-top:24px;background:rgba(12,18,36,.8);border:1px solid rgba(99,102,241,.2);border-radius:14px;padding:16px 18px;">
+          <div style="font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ind2);margin-bottom:10px;">⚙️ Cloudflare Worker Backend</div>
+          <p style="font-size:.78rem;color:var(--sub);line-height:1.6;margin-bottom:10px;">
+            Deploy the <strong style="color:var(--txt);">index.js</strong> below to your Cloudflare Worker to proxy CleanURI requests and bypass CORS.
+          </p>
+          <button class="btn btn-sm btn-ind" onclick="document.getElementById('worker-code-box').style.display=document.getElementById('worker-code-box').style.display==='none'?'block':'none'" style="width:auto;">📄 View index.js</button>
+          <div id="worker-code-box" style="display:none;margin-top:12px;">
+            <pre id="worker-code-pre" style="background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:14px;font-family:'Space Mono',monospace;font-size:.72rem;color:#c7d2fe;overflow-x:auto;white-space:pre;line-height:1.6;max-height:320px;overflow-y:auto;"></pre>
+            <button class="copy-btn" id="worker-copy-btn" style="margin-top:8px;">📋 Copy Worker Code</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+/* ════════════════════════════════════════════════════
+   UTILITIES
+════════════════════════════════════════════════════ */
+function openPanel(id) {
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closePanel(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+function showMsg(el, type, txt) {
+  el.className = 'msg ' + type + ' show';
+  el.querySelector('span:last-child').textContent = txt;
+}
+function hideMsg(el) { el.classList.remove('show'); }
+function loading(btn, state) {
+  if (state) {
+    btn.dataset.orig = btn.innerHTML;
+    btn.innerHTML = '<span class="spin"></span> Loading…';
+    btn.disabled = true;
+  } else {
+    btn.innerHTML = btn.dataset.orig || btn.innerHTML;
+    btn.disabled = false;
+  }
+}
+function showToast(msg = '✓ Copied!') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+function copyText(txt) {
+  navigator.clipboard.writeText(txt).then(() => showToast()).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = txt; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta); showToast();
+  });
+}
+// Close panel on backdrop click
+document.querySelectorAll('.panel').forEach(p => {
+  p.addEventListener('click', e => { if (e.target === p) closePanel(p.id); });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.panel.open').forEach(p => closePanel(p.id));
+    closeMailModal();
+  }
+});
+
+/* ════════════════════════════════════════════════════
+   MODULE: ANONYMITY CHECKER
+════════════════════════════════════════════════════ */
+const DC_KEYWORDS = [
+  'amazon','aws','digitalocean','linode','vultr','ovh','hetzner','m247','leaseweb',
+  'choopa','psychz','zenlayer','frantech','serverius','hostinger','contabo','cloudflare',
+  'google cloud','microsoft azure','alibaba','tencent','rackspace','softlayer','quadranet',
+  'fastly','akamai','incapsula','sucuri','voxility','colocrossing','liquidweb','hostwinds',
+];
+const LANG_CC = {
+  en:['US','GB','CA','AU','NZ','IE','ZA','IN','SG','PH','NG'],
+  es:['ES','MX','CO','AR','PE','VE','CL','EC','BO','CU'],
+  fr:['FR','BE','CH','CA','LU','SN','CI','CM','MG'],
+  de:['DE','AT','CH','LI','LU'],
+  pt:['PT','BR','AO','MZ'],
+  zh:['CN','TW','HK','SG'],
+  ar:['SA','AE','EG','IQ','SY','JO','LB','KW','QA'],
+  ru:['RU','BY','KZ'],ja:['JP'],ko:['KR'],
+  hi:['IN'],bn:['BD','IN'],tr:['TR'],vi:['VN'],
+  th:['TH'],id:['ID'],ms:['MY','SG'],
+};
+function isDC(org) { if(!org) return false; const l=org.toLowerCase(); return DC_KEYWORDS.some(k=>l.includes(k)); }
+function checkLang(lang, cc) {
+  if(!lang||!cc) return {match:true,reason:'Unable to verify'};
+  const base=lang.split('-')[0].toLowerCase(), allowed=LANG_CC[base];
+  if(!allowed) return {match:true,reason:`Lang "${base}" not in DB`};
+  const m=allowed.includes(cc.toUpperCase());
+  return {match:m, reason:m?`${base.toUpperCase()} ✓ matches ${cc}`:`${base.toUpperCase()} ✗ doesn't match ${cc}`};
+}
+function setChk(id,state,val,pts) {
+  const el=document.getElementById(id);
+  const vEl=document.getElementById(id+'-val');
+  const pEl=document.getElementById(id+'-pts');
+  el.className='check-item '+state;
+  if(val!==undefined) { vEl.textContent=val; vEl.className='check-val'+(state==='fail'?' mismatch':''); }
+  if(pts!==undefined) { pEl.textContent=pts; pEl.className='check-deduct '+(state==='pass'?'grn':state==='fail'?'red':''); }
+}
+function animGauge(score) {
+  const c=document.getElementById('gauge-circle');
+  const n=document.getElementById('gauge-num');
+  const circ=2*Math.PI*80;
+  c.style.stroke=score>=80?'#10b981':score>=50?'#f59e0b':'#f43f5e';
+  c.style.strokeDashoffset=circ-(score/100)*circ;
+  let cur=0; const step=score/60;
+  const t=setInterval(()=>{ cur=Math.min(cur+step,score); n.textContent=Math.round(cur)+'%'; if(cur>=score) clearInterval(t); },16);
+}
+function setAnonBadge(score) {
+  const b=document.getElementById('anon-badge');
+  const s=document.getElementById('anon-subtitle');
+  b.className='anon-status-badge';
+  if(score===100){b.classList.add('badge-safe');b.textContent='✅ Fully Anonymous';s.textContent='No leaks detected.';}
+  else if(score>=70){b.classList.add('badge-safe');b.textContent='🟢 Mostly Anonymous';s.textContent='Minor inconsistencies found.';}
+  else if(score>=40){b.classList.add('badge-warn');b.textContent='🟡 Partial Anonymity';s.textContent='Some leaks detected.';}
+  else{b.classList.add('badge-danger');b.textContent='🔴 Low Anonymity';s.textContent='Significant leaks detected.';}
+}
+function renderAdetails(fields, cid) {
+  document.getElementById(cid).innerHTML=fields.map(f=>`<div class="adet"><div class="adet-k">${f.k}</div><div class="adet-v ${f.cls||''}">${f.v||'—'}</div></div>`).join('');
+}
+document.getElementById('anon-scan-btn').addEventListener('click', async function() {
+  const btn=this, errEl=document.getElementById('anon-err');
+  const loadEl=document.getElementById('anon-loading'), resEl=document.getElementById('anon-result');
+  hideMsg(errEl); resEl.style.display='none'; loadEl.style.display='block'; loading(btn,true);
+  const bTZ=Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const bLang=navigator.language||'';
+  const ua=navigator.userAgent;
+  try {
+    const r=await fetch('https://ipapi.co/json/',{headers:{Accept:'application/json'}});
+    if(!r.ok) throw new Error('ipapi '+r.status);
+    const d=await r.json();
+    if(d.error) throw new Error(d.reason||'API error');
+    loadEl.style.display='none'; resEl.style.display='block';
+    let score=100;
+    // VPN check
+    const vpn=isDC(d.org)||isDC(d.asn);
+    if(vpn){score-=50;setChk('chk-vpn','fail',d.org||d.asn,'−50% Deducted');}
+    else{setChk('chk-vpn','pass',d.org||'Residential ISP','✓ No deduction');}
+    // Tor check
+    let tor=false;
+    try{const tr=await fetch('https://check.torproject.org/api/ip',{signal:AbortSignal.timeout(4000)});if(tr.ok){const td=await tr.json();tor=td.IsTor===true;}}catch{}
+    if(tor){score-=30;setChk('chk-tor','fail','Tor Exit Node Detected','−30% Deducted');}
+    else{setChk('chk-tor','pass','Not Tor / Not Blacklisted','✓ No deduction');}
+    // Timezone
+    const ipTZ=d.timezone||'';
+    const tzMatch=bTZ===ipTZ;
+    if(!tzMatch&&ipTZ){
+      score-=10;
+      setChk('chk-tz','fail','','−10% Deducted');
+      document.getElementById('chk-tz-val').innerHTML=`<span style="color:#f43f5e">Browser: ${bTZ}</span><br><span style="color:#94a3b8">IP: ${ipTZ}</span>`;
+    } else { setChk('chk-tz','pass',ipTZ?`✓ ${bTZ}`:`Browser: ${bTZ}`,'✓ No deduction'); }
+    // Language
+    const lc=checkLang(bLang,d.country_code||'');
+    if(!lc.match){score-=10;setChk('chk-lang','fail',lc.reason,'−10% Deducted');}
+    else{setChk('chk-lang','pass',lc.reason,'✓ No deduction');}
+    score=Math.max(0,score);
+    animGauge(score); setAnonBadge(score);
+    renderAdetails([
+      {k:'IP Address',v:d.ip,cls:'highlight'},{k:'ISP / Org',v:d.org},{k:'ASN',v:d.asn},
+      {k:'Country',v:`${d.country_name||''} (${d.country_code||''})`},{k:'Region',v:d.region},
+      {k:'City',v:d.city},{k:'IP Timezone',v:d.timezone,cls:!tzMatch?'warn-val':''},
+      {k:'UTC Offset',v:d.utc_offset},{k:'Languages',v:d.languages},
+      {k:'Currency',v:`${d.currency||''} ${d.currency_name||''}`},
+    ],'anon-details');
+    renderAdetails([
+      {k:'Browser TZ',v:bTZ,cls:!tzMatch?'warn-val':''},{k:'Language',v:bLang},
+      {k:'Platform',v:navigator.platform||'—'},{k:'Screen',v:`${screen.width}×${screen.height}`},
+      {k:'Color Depth',v:screen.colorDepth+'-bit'},{k:'Cookies',v:navigator.cookieEnabled?'Enabled':'Disabled'},
+      {k:'Do Not Track',v:navigator.doNotTrack==='1'?'Enabled':'Not Set'},
+      {k:'User Agent',v:ua.substring(0,55)+'…'},
+    ],'anon-browser');
+  } catch(e) {
+    loadEl.style.display='none';
+    showMsg(document.getElementById('anon-err'),'err','Failed to fetch IP data: '+e.message);
+  }
+  loading(btn,false);
+});
+
+/* ════════════════════════════════════════════════════
+   MODULE: TEMP MAIL (Mail.tm API)
+════════════════════════════════════════════════════ */
+const MAILTM = 'https://api.mail.tm';
+let mailToken = null, mailAddress = null, mailPollTimer = null, mailMessages = {};
+
+function randomStr(len=10) {
+  const chars='abcdefghijklmnopqrstuvwxyz0123456789';
+  return Array.from({length:len},()=>chars[Math.floor(Math.random()*chars.length)]).join('');
+}
+
+async function getDomain() {
+  const r = await fetch(`${MAILTM}/domains?page=1`);
+  const d = await r.json();
+  return d['hydra:member']?.[0]?.domain;
+}
+
+async function createMailAccount() {
+  document.getElementById('mail-creating').style.display='block';
+  document.getElementById('mail-ready').style.display='none';
+  hideMsg(document.getElementById('mail-err'));
+  stopMailPoll();
+  try {
+    const domain = await getDomain();
+    if(!domain) throw new Error('No domains available');
+    const user = randomStr(10);
+    const pass = randomStr(14)+'!A1';
+    const address = `${user}@${domain}`;
+    // Create account
+    const cr = await fetch(`${MAILTM}/accounts`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({address,password:pass})
+    });
+    if(!cr.ok) { const e=await cr.json(); throw new Error(e['hydra:description']||'Account creation failed'); }
+    // Get token
+    const tr = await fetch(`${MAILTM}/token`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({address,password:pass})
+    });
+    if(!tr.ok) throw new Error('Auth failed');
+    const td = await tr.json();
+    mailToken = td.token;
+    mailAddress = address;
+    mailMessages = {};
+    document.getElementById('mail-address').textContent = address;
+    document.getElementById('mail-creating').style.display='none';
+    document.getElementById('mail-ready').style.display='block';
+    renderInbox();
+    startMailPoll();
+  } catch(e) {
+    document.getElementById('mail-creating').style.display='none';
+    showMsg(document.getElementById('mail-err'),'err',e.message);
+  }
+}
+
+async function pollInbox(manual=false) {
+  if(!mailToken) return;
+  try {
+    const r = await fetch(`${MAILTM}/messages?page=1`,{
+      headers:{'Authorization':`Bearer ${mailToken}`}
+    });
+    if(!r.ok) return;
+    const d = await r.json();
+    const msgs = d['hydra:member']||[];
+    let hasNew = false;
+    msgs.forEach(m => { if(!mailMessages[m.id]){mailMessages[m.id]={...m,_read:false};hasNew=true;} });
+    if(hasNew||manual) renderInbox();
+  } catch {}
+}
+
+function startMailPoll() {
+  stopMailPoll();
+  mailPollTimer = setInterval(() => pollInbox(), 8000);
+}
+function stopMailPoll() {
+  if(mailPollTimer) { clearInterval(mailPollTimer); mailPollTimer=null; }
+}
+
+function renderInbox() {
+  const list = document.getElementById('inbox-list');
+  const count = document.getElementById('mail-count');
+  const msgs = Object.values(mailMessages).sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+  count.textContent = msgs.length + (msgs.length===1?' message':' messages');
+  if(!msgs.length) {
+    list.innerHTML='<div class="inbox-empty"><div class="inbox-empty-icon">📭</div><div>No messages yet. Waiting for emails…</div></div>';
+    return;
+  }
+  list.innerHTML = msgs.map(m=>`
+    <div class="mail-item${m._read?'':' unread'}" onclick="readMail('${m.id}')">
+      <div class="mail-item-from">${escHtml(m.from?.address||'Unknown')}</div>
+      <div class="mail-item-subject">${escHtml(m.subject||'(No subject)')}</div>
+      <div class="mail-item-preview">${escHtml((m.intro||'').substring(0,80))}</div>
+      <div class="mail-item-time">${formatMailTime(m.createdAt)}</div>
+    </div>`).join('');
+}
+
+async function readMail(id) {
+  if(!mailToken) return;
+  try {
+    const r = await fetch(`${MAILTM}/messages/${id}`,{
+      headers:{'Authorization':`Bearer ${mailToken}`}
+    });
+    if(!r.ok) return;
+    const m = await r.json();
+    if(mailMessages[id]) { mailMessages[id]._read=true; renderInbox(); }
+    // Populate modal
+    document.getElementById('modal-subject').textContent = m.subject||'(No subject)';
+    document.getElementById('modal-from').textContent    = m.from?.address||'—';
+    document.getElementById('modal-to').textContent      = (m.to||[]).map(t=>t.address).join(', ')||'—';
+    document.getElementById('modal-time').textContent    = formatMailTime(m.createdAt);
+    const body = document.getElementById('modal-body');
+    if(m.html&&m.html.length) {
+      body.innerHTML='<iframe id="mail-frame" sandbox="allow-same-origin" style="width:100%;min-height:350px;border:none;background:#fff;border-radius:8px;"></iframe>';
+      const iframe=document.getElementById('mail-frame');
+      iframe.contentDocument.open();
+      iframe.contentDocument.write(m.html[0]||'');
+      iframe.contentDocument.close();
+      setTimeout(()=>{ iframe.style.height=(iframe.contentDocument.body?.scrollHeight||350)+20+'px'; },200);
+    } else {
+      body.innerHTML=`<pre>${escHtml(m.text||'(Empty message)')}</pre>`;
+    }
+    document.getElementById('mail-modal').classList.add('open');
+    document.body.style.overflow='hidden';
+  } catch(e) { console.error(e); }
+}
+
+function closeMailModal() {
+  document.getElementById('mail-modal').classList.remove('open');
+  if(!document.querySelector('.panel.open')) document.body.style.overflow='';
+}
+
+async function generateNewMail() {
+  await createMailAccount();
+}
+
+async function deleteMailAccount() {
+  stopMailPoll();
+  mailToken=null; mailAddress=null; mailMessages={};
+  document.getElementById('mail-ready').style.display='none';
+  document.getElementById('mail-creating').style.display='block';
+  await createMailAccount();
+}
+
+function closeMail() {
+  stopMailPoll();
+  closePanel('p-mail');
+}
+
+// Open panel triggers account creation
+document.querySelector('[onclick="openPanel(\'p-mail\')"]').addEventListener('click', ()=>{
+  setTimeout(()=>{
+    if(!mailToken) createMailAccount();
+    else {
+      document.getElementById('mail-creating').style.display='none';
+      document.getElementById('mail-ready').style.display='block';
+    }
+  },50);
+});
+
+document.getElementById('mail-copy-btn').addEventListener('click', ()=>{
+  if(mailAddress){ copyText(mailAddress); }
+});
+
+document.getElementById('mail-modal').addEventListener('click', e=>{
+  if(e.target===document.getElementById('mail-modal')) closeMailModal();
+});
+
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function formatMailTime(iso) {
+  if(!iso) return '—';
+  const d=new Date(iso);
+  return d.toLocaleString(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+}
+
+/* ════════════════════════════════════════════════════
+   MODULE: INTERNET SPEED TEST
+════════════════════════════════════════════════════ */
+let speedRunning=false;
+const PROBE_URLS=[
+  'https://speed.cloudflare.com/__down?bytes=',
+  'https://www.google.com/generate_204',
+];
+
+function logSpeed(msg,cls='log-line'){
+  const log=document.getElementById('spd-log');
+  log.innerHTML+=`<div class="${cls}">${msg}</div>`;
+  log.scrollTop=log.scrollHeight;
+}
+function resetSpeed(){
+  if(speedRunning) return;
+  document.getElementById('spd-dl').textContent='—';
+  document.getElementById('spd-ul').textContent='—';
+  document.getElementById('spd-ping').textContent='—';
+  document.getElementById('spd-jitter').textContent='—';
+  document.getElementById('spd-bar').style.width='0%';
+  document.getElementById('spd-log').innerHTML='<div class="log-line">Ready. Press Start to begin.</div>';
+}
+function setBar(pct){ document.getElementById('spd-bar').style.width=Math.min(pct,100)+'%'; }
+
+async function measurePing(){
+  const times=[];
+  for(let i=0;i<5;i++){
+    const t0=performance.now();
+    try{ await fetch('https://speed.cloudflare.com/__down?bytes=1&t='+Date.now(),{cache:'no-store',mode:'cors'}); }
+    catch{}
+    times.push(performance.now()-t0);
+  }
+  times.sort((a,b)=>a-b);
+  const med=times[Math.floor(times.length/2)];
+  const jitter=times[times.length-1]-times[0];
+  return {ping:Math.round(med),jitter:Math.round(jitter)};
+}
+
+async function measureDownload(){
+  const sizes=[500000,2000000,5000000];
+  let totalBytes=0,totalTime=0;
+  for(const sz of sizes){
+    const t0=performance.now();
+    try{
+      const r=await fetch(`https://speed.cloudflare.com/__down?bytes=${sz}&t=${Date.now()}`,{cache:'no-store',mode:'cors'});
+      await r.arrayBuffer();
+      const elapsed=(performance.now()-t0)/1000;
+      const mbps=(sz*8)/(elapsed*1e6);
+      totalBytes+=sz; totalTime+=(performance.now()-t0)/1000;
+      document.getElementById('spd-dl').textContent=mbps.toFixed(1);
+      logSpeed(`↓ ${sz/1e6}MB → ${mbps.toFixed(2)} Mbps`,'log-line active');
+    }catch(e){ logSpeed(`↓ probe failed: ${e.message}`); }
+  }
+  return totalTime>0?((totalBytes*8)/(totalTime*1e6)):0;
+}
+
+async function measureUpload(){
+  const sizes=[250000,1000000,2000000];
+  let totalBytes=0,totalTime=0;
+  for(const sz of sizes){
+    const blob=new Uint8Array(sz);
+    const t0=performance.now();
+    try{
+      await fetch('https://speed.cloudflare.com/__up?t='+Date.now(),{
+        method:'POST',body:blob,cache:'no-store',mode:'cors',
+        headers:{'Content-Type':'application/octet-stream'}
+      });
+      const elapsed=(performance.now()-t0)/1000;
+      const mbps=(sz*8)/(elapsed*1e6);
+      totalBytes+=sz; totalTime+=(performance.now()-t0)/1000;
+      document.getElementById('spd-ul').textContent=mbps.toFixed(1);
+      logSpeed(`↑ ${sz/1e6}MB → ${mbps.toFixed(2)} Mbps`,'log-line active');
+    }catch(e){ logSpeed(`↑ probe failed: ${e.message}`); }
+  }
+  return totalTime>0?((totalBytes*8)/(totalTime*1e6)):0;
+}
+
+async function startSpeedTest(){
+  if(speedRunning) return;
+  speedRunning=true;
+  const btn=document.getElementById('spd-btn');
+  loading(btn,true);
+  document.getElementById('spd-dl').textContent='…';
+  document.getElementById('spd-ul').textContent='…';
+  document.getElementById('spd-ping').textContent='…';
+  document.getElementById('spd-jitter').textContent='…';
+  document.getElementById('spd-log').innerHTML='';
+  document.getElementById('sg-dl').classList.remove('active');
+  document.getElementById('sg-ul').classList.remove('active');
+
+  // Get IP
+  try{
+    const ir=await fetch('https://ipapi.co/json/',{headers:{Accept:'application/json'}});
+    const id=await ir.json();
+    document.getElementById('spd-ip').textContent=id.ip||'—';
+  }catch{ document.getElementById('spd-ip').textContent='—'; }
+
+  // Ping
+  logSpeed('⏱ Measuring latency…','log-line active');
+  setBar(5);
+  const {ping,jitter}=await measurePing();
+  document.getElementById('spd-ping').textContent=ping;
+  document.getElementById('spd-jitter').textContent=jitter;
+  logSpeed(`✓ Ping: ${ping}ms · Jitter: ${jitter}ms`,'log-line done');
+  setBar(20);
+
+  // Download
+  logSpeed('⬇ Testing download speed…','log-line active');
+  document.getElementById('sg-dl').classList.add('active');
+  const dlFinal=await measureDownload();
+  document.getElementById('spd-dl').textContent=dlFinal.toFixed(1);
+  document.getElementById('sg-dl').classList.remove('active');
+  logSpeed(`✓ Download: ${dlFinal.toFixed(2)} Mbps`,'log-line done');
+  setBar(65);
+
+  // Upload
+  logSpeed('⬆ Testing upload speed…','log-line active');
+  document.getElementById('sg-ul').classList.add('active');
+  const ulFinal=await measureUpload();
+  document.getElementById('spd-ul').textContent=ulFinal.toFixed(1);
+  document.getElementById('sg-ul').classList.remove('active');
+  logSpeed(`✓ Upload: ${ulFinal.toFixed(2)} Mbps`,'log-line done');
+  setBar(100);
+  logSpeed('✅ Speed test complete!','log-line done');
+
+  speedRunning=false;
+  loading(btn,false);
+}
+
+/* ════════════════════════════════════════════════════
+   MODULE: IP INTELLIGENCE
+════════════════════════════════════════════════════ */
+let ipCache=null;
+document.getElementById('ip-scan-btn').addEventListener('click', async function(){
+  const btn=this;
+  const errEl=document.getElementById('ip-err');
+  const dataEl=document.getElementById('ip-data-section');
+  hideMsg(errEl); dataEl.style.display='none'; loading(btn,true);
+  try{
+    const r=await fetch('https://ipapi.co/json/',{headers:{Accept:'application/json'}});
+    if(!r.ok) throw new Error('ipapi '+r.status);
+    const d=await r.json();
+    if(d.error) throw new Error(d.reason||'API error');
+    ipCache={...d,_source:'ipapi'};
+    document.getElementById('ip-grid').innerHTML=[
+      {k:'Public IP',v:d.ip,style:'color:var(--cyn);font-family:"Space Mono",monospace'},
+      {k:'ISP / Org',v:d.org},{k:'ASN',v:d.asn},
+      {k:'Country',v:`${d.country_name||'—'} (${d.country_code||'—'})`},
+      {k:'Region',v:`${d.region||'—'} (${d.region_code||'—'})`},
+      {k:'City',v:d.city},{k:'Timezone',v:d.timezone},{k:'UTC Offset',v:d.utc_offset},
+      {k:'Currency',v:`${d.currency||'—'} — ${d.currency_name||''}`},
+      {k:'Languages',v:d.languages},{k:'Latitude',v:d.latitude},{k:'Longitude',v:d.longitude},
+    ].map(f=>`<div style="background:rgba(12,18,36,.7);border:1px solid var(--border);border-radius:13px;padding:12px 14px;">
+      <div style="font-size:.65rem;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;">${f.k}</div>
+      <div style="font-size:.85rem;font-weight:600;word-break:break-all;${f.style||''}">${f.v||'—'}</div>
+    </div>`).join('');
+    dataEl.style.display='block';
+  }catch{
+    try{
+      const r2=await fetch('https://ipinfo.io/json');
+      if(!r2.ok) throw new Error();
+      const d2=await r2.json();
+      ipCache={...d2,_source:'ipinfo'};
+      const[lat,lng]=(d2.loc||'0,0').split(',');
+      document.getElementById('ip-grid').innerHTML=[
+        {k:'Public IP',v:d2.ip,style:'color:var(--cyn);font-family:"Space Mono",monospace'},
+        {k:'ISP / Org',v:d2.org},{k:'City',v:d2.city},{k:'Region',v:d2.region},
+        {k:'Country',v:d2.country},{k:'Timezone',v:d2.timezone},
+        {k:'Postal',v:d2.postal},{k:'Hostname',v:d2.hostname},
+        {k:'Latitude',v:lat},{k:'Longitude',v:lng},
+      ].map(f=>`<div style="background:rgba(12,18,36,.7);border:1px solid var(--border);border-radius:13px;padding:12px 14px;">
+        <div style="font-size:.65rem;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;">${f.k}</div>
+        <div style="font-size:.85rem;font-weight:600;word-break:break-all;${f.style||''}">${f.v||'—'}</div>
+      </div>`).join('');
+      dataEl.style.display='block';
+    }catch{ showMsg(errEl,'err','Both IP APIs failed.'); }
+  }
+  loading(btn,false);
+});
+
+document.getElementById('ip-report-btn').addEventListener('click',()=>{
+  if(!ipCache) return;
+  const d=ipCache, isIpapi=d._source==='ipapi';
+  const html=`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>IP Report — XONOMO.SITE</title><link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&family=Space+Mono&display=swap" rel="stylesheet"><style>*{box-sizing:border-box;margin:0;padding:0}body{background:#080c18;color:#f1f5f9;font-family:'DM Sans',sans-serif;padding:40px 20px;min-height:100vh}h1{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;background:linear-gradient(135deg,#c7d2fe,#a5b4fc,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}.wrap{max-width:800px;margin:0 auto}.top{text-align:center;padding-bottom:28px;margin-bottom:28px;border-bottom:1px solid rgba(255,255,255,0.07)}.ip{font-family:'Space Mono',monospace;font-size:1.7rem;color:#22d3ee;margin:12px 0 6px}.sub{color:#64748b;font-size:.82rem}.sh{font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#6366f1;margin:22px 0 12px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}.item{background:rgba(16,24,46,0.75);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:13px}.ik{font-size:.66rem;color:#475569;letter-spacing:.09em;text-transform:uppercase;margin-bottom:4px}.iv{font-size:.88rem;font-weight:600;word-break:break-all}.foot{text-align:center;color:#334155;font-size:.73rem;margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.05)}</style></head><body><div class="wrap"><div class="top"><h1>IP Intelligence Report</h1><div class="ip">${d.ip||'Unknown'}</div><div class="sub">${d.city||''}${d.city?', ':''}${d.region||d.country||''} · ${new Date().toUTCString()}</div></div><div class="sh">Network</div><div class="grid"><div class="item"><div class="ik">IP</div><div class="iv" style="color:#22d3ee;font-family:'Space Mono',monospace">${d.ip||'—'}</div></div><div class="item"><div class="ik">ISP</div><div class="iv">${d.org||'—'}</div></div>${isIpapi?`<div class="item"><div class="ik">ASN</div><div class="iv">${d.asn||'—'}</div></div>`:''}</div><div class="sh">Geo</div><div class="grid"><div class="item"><div class="ik">Country</div><div class="iv">${isIpapi?(d.country_name||'—'):d.country||'—'}</div></div><div class="item"><div class="ik">City</div><div class="iv">${d.city||'—'}</div></div><div class="item"><div class="ik">Timezone</div><div class="iv">${d.timezone||'—'}</div></div>${isIpapi?`<div class="item"><div class="ik">Currency</div><div class="iv">${d.currency||'—'}</div></div>`:''}</div><div class="foot"><p>XONOMO.SITE · ipapi.co · ${new Date().getFullYear()}</p></div></div></body></html>`;
+  window.open(URL.createObjectURL(new Blob([html],{type:'text/html'})),'_blank');
+});
+
+/* ════════════════════════════════════════════════════
+   MODULE: URL SHORTENER (CleanURI)
+════════════════════════════════════════════════════ */
+const WORKER_CODE=`// ╔═══════════════════════════════════════════╗
+// ║  XONOMO Link Shortener — Cloudflare Worker ║
+// ║  index.js  — Deploy at workers.dev         ║
+// ╚═══════════════════════════════════════════╝
+
+const CORS = {
+  'Access-Control-Allow-Origin' : '*',
+  'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+};
+
+export default {
+  async fetch(request) {
+    const url = new URL(request.url);
+    if (request.method === 'OPTIONS')
+      return new Response(null, { status: 204, headers: CORS });
+    if (request.method === 'POST' && url.pathname === '/shorten')
+      return handleShorten(request);
+    return new Response('XONOMO Shortener Worker is running.', {
+      headers: { 'Content-Type': 'text/plain', ...CORS }
+    });
+  }
+};
+
+async function handleShorten(request) {
+  let body;
+  try { body = await request.json(); } catch {
+    return jsonErr(400, 'Invalid JSON');
+  }
+  const longUrl = (body.url || '').trim();
+  if (!longUrl) return jsonErr(400, 'Missing "url" field');
+  try { new URL(longUrl); } catch {
+    return jsonErr(422, 'Invalid URL format');
+  }
+  const form = new URLSearchParams();
+  form.set('url', longUrl);
+  let upstream;
+  try {
+    upstream = await fetch('https://cleanuri.com/api/v1/shorten', {
+      method : 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body   : form.toString(),
+    });
+  } catch (e) {
+    return jsonErr(502, 'CleanURI unreachable: ' + e.message);
+  }
+  const data = await upstream.json().catch(() => ({}));
+  if (!upstream.ok || data.error)
+    return jsonErr(upstream.status || 502, data.error || 'CleanURI error');
+  if (!data.result_url)
+    return jsonErr(502, 'No shortened URL returned');
+  return new Response(
+    JSON.stringify({ short_url: data.result_url, original: longUrl }),
+    { status: 200, headers: { ...CORS, 'Content-Type': 'application/json' } }
+  );
+}
+
+function jsonErr(status, message) {
+  return new Response(
+    JSON.stringify({ error: message }),
+    { status, headers: { ...CORS, 'Content-Type': 'application/json' } }
+  );
+}`;
+
+(function(){
+  const pre=document.getElementById('worker-code-pre');
+  if(pre) pre.textContent=WORKER_CODE;
+  const cb=document.getElementById('worker-copy-btn');
+  if(cb) cb.onclick=()=>{ copyText(WORKER_CODE); cb.textContent='✓ Copied!'; cb.classList.add('copied'); setTimeout(()=>{cb.textContent='📋 Copy Worker Code';cb.classList.remove('copied');},2500); };
+})();
+
+document.getElementById('url-btn').addEventListener('click', async function(){
+  const btn=this, raw=document.getElementById('url-input').value.trim();
+  const resEl=document.getElementById('url-result'), errEl=document.getElementById('url-err');
+  const linkEl=document.getElementById('url-short-text');
+  hideMsg(errEl); resEl.style.display='none';
+  if(!raw){showMsg(errEl,'err','Please enter a URL.');return;}
+  try{new URL(raw);}catch{showMsg(errEl,'err','Invalid URL — must start with https:// or http://');return;}
+  loading(btn,true);
+  const endpoints=[
+    {url:'/shorten',method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url:raw}),parse:async r=>{const d=await r.json();if(!r.ok||d.error)throw new Error(d.error||'Error');return d.short_url;}},
+    {url:'https://cleanuri.com/api/v1/shorten',method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:`url=${encodeURIComponent(raw)}`,parse:async r=>{const d=await r.json();if(!r.ok||d.error)throw new Error(d.error||'Error');return d.result_url;}},
+  ];
+  let shortened=null, lastErr='';
+  for(const ep of endpoints){
+    try{const r=await fetch(ep.url,{method:ep.method,headers:ep.headers,body:ep.body});shortened=await ep.parse(r);if(shortened)break;}
+    catch(e){lastErr=e.message;}
+  }
+  if(shortened){
+    linkEl.href=shortened; linkEl.textContent=shortened; resEl.style.display='block';
+    const cb=document.getElementById('url-copy-btn');
+    cb.onclick=()=>{copyText(shortened);cb.classList.add('copied');cb.textContent='✓ Copied!';setTimeout(()=>{cb.classList.remove('copied');cb.textContent='📋 Copy';},2000);};
+  } else {
+    showMsg(errEl,'err',lastErr||'Shortening failed. Deploy the Cloudflare Worker for full support.');
+  }
+  loading(btn,false);
+});
+
+document.getElementById('url-input').addEventListener('keydown',e=>{
+  if(e.key==='Enter') document.getElementById('url-btn').click();
+});
+</script>
+</body>
+</html>
